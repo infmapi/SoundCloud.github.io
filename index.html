@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        /* CSS styles can be added here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #playlist {
+            list-style-type: none;
+            padding: 0;
+        }
+        #playlist li {
+            margin-bottom: 5px;
+        }
+        #playlist li a {
+            text-decoration: none;
+            color: #333;
+        }
+        #playlist li a:hover {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Music Player</h1>
+        <audio id="audioPlayer" controls>
+            Your browser does not support the audio element.
+        </audio>
+        <ul id="playlist">
+            <!-- Playlist will be populated dynamically -->
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioPlayer = document.getElementById("audioPlayer");
+            const playlist = document.getElementById("playlist");
+            const musicFolder = "music/";
+            const songs = [
+                { title: "Song 1", source: "song1.mp3" },
+                { title: "Song 2", source: "song2.mp3" },
+                // Add more songs as needed
+            ];
+
+            // Function to create playlist items
+            function createPlaylistItem(song) {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.href = "#";
+                link.textContent = song.title;
+                link.addEventListener("click", function() {
+                    audioPlayer.src = musicFolder + song.source;
+                    audioPlayer.play();
+                });
+                listItem.appendChild(link);
+                return listItem;
+            }
+
+            // Function to populate the playlist
+            function populatePlaylist() {
+                songs.forEach(function(song) {
+                    const listItem = createPlaylistItem(song);
+                    playlist.appendChild(listItem);
+                });
+            }
+
+            // Populate the playlist when the page loads
+            populatePlaylist();
+        });
+    </script>
+</body>
+</html>
 
