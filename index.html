@@ -94,9 +94,11 @@
         </ul>
         <div id="nowPlaying"></div>
         <div id="progressBar">
+            <button class="controlButton" id="backward10Button">&#9668; -10s</button>
             <button class="controlButton" id="previousButton">&#9664;</button>
             <input type="range" id="seekSlider" value="0" step="1">
             <button class="controlButton" id="nextButton">&#9654;</button>
+            <button class="controlButton" id="forward10Button">+10s &#9658;</button>
         </div>
     </div>
 
@@ -106,6 +108,8 @@
             const playlist = document.getElementById("playlist");
             const nowPlaying = document.getElementById("nowPlaying");
             const seekSlider = document.getElementById("seekSlider");
+            const backward10Button = document.getElementById("backward10Button");
+            const forward10Button = document.getElementById("forward10Button");
             const previousButton = document.getElementById("previousButton");
             const nextButton = document.getElementById("nextButton");
             const musicFolder = "music/";
@@ -170,6 +174,16 @@
             seekSlider.addEventListener("input", function() {
                 const seekTime = (seekSlider.value / 100) * audioPlayer.duration;
                 audioPlayer.currentTime = seekTime;
+            });
+
+            // Go back 10 seconds
+            backward10Button.addEventListener("click", function() {
+                audioPlayer.currentTime -= 10;
+            });
+
+            // Go forward 10 seconds
+            forward10Button.addEventListener("click", function() {
+                audioPlayer.currentTime += 10;
             });
 
             // Play previous song
