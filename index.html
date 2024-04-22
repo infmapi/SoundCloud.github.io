@@ -5,37 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player</title>
     <style>
-        /* CSS styles can be added here */
+        /* CSS styles for better UI */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f8f8f8;
         }
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #f4f4f4;
+            background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         h1 {
-            text-align: center;
+            font-family: 'Verdana', sans-serif;
             margin-bottom: 20px;
+            color: #333;
         }
         #playlist {
             list-style-type: none;
             padding: 0;
+            margin-bottom: 20px;
         }
         #playlist li {
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #666;
         }
         #playlist li a {
             text-decoration: none;
             color: #333;
+            transition: color 0.3s;
         }
         #playlist li a:hover {
-            color: #666;
+            color: #555;
+        }
+        #nowPlaying {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #555;
+        }
+        #audioPlayer {
+            margin-top: 20px;
+            width: 100%;
         }
     </style>
 </head>
@@ -48,12 +64,14 @@
         <ul id="playlist">
             <!-- Playlist will be populated dynamically -->
         </ul>
+        <div id="nowPlaying"></div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audioPlayer = document.getElementById("audioPlayer");
             const playlist = document.getElementById("playlist");
+            const nowPlaying = document.getElementById("nowPlaying");
             const musicFolder = "music/";
             const songs = [
                 { title: "PLAY (Alan Walker's Video)", filename: "Alan Walker, K-391, Tungevaag, Mangoo - PLAY (Alan Walker's Video).mp3" },
@@ -97,6 +115,7 @@
                 const song = songs[currentSongIndex];
                 audioPlayer.src = musicFolder + song.filename;
                 audioPlayer.play();
+                nowPlaying.textContent = "Now playing: " + song.title;
             }
 
             // Play the next song when the current song ends
