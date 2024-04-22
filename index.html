@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title>Glass Radio</title>
     <style>
-        /* CSS styles for better UI */
+        /* CSS styles for dark mode and gradient play bar */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
+            background-color: #121212; /* Dark background */
+            color: #fff; /* Light text */
         }
         .container {
             max-width: 800px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1e1e1e; /* Dark container */
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
             text-align: center;
         }
         h1 {
             font-family: 'Verdana', sans-serif;
             margin-bottom: 20px;
-            color: #333;
+            color: #b2dfdb; /* Light blue */
         }
         #playlist {
             list-style-type: none;
@@ -34,30 +35,32 @@
         #playlist li {
             margin-bottom: 10px;
             font-size: 18px;
-            color: #666;
+            color: #ccc; /* Light gray */
         }
         #playlist li a {
             text-decoration: none;
-            color: #333;
+            color: #b2dfdb; /* Light blue */
             transition: color 0.3s;
         }
         #playlist li a:hover {
-            color: #555;
+            color: #82ada9; /* Lighter blue */
         }
         #nowPlaying {
             margin-top: 20px;
             font-size: 24px;
-            color: #555;
+            color: #82ada9; /* Lighter blue */
         }
         #audioPlayer {
             margin-top: 20px;
             width: 100%;
+            background: linear-gradient(90deg, #82ada9, #8e24aa); /* Light blue to purple gradient */
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>My Music Player</h1>
+        <h1>Glass Radio</h1>
         <audio id="audioPlayer" controls autoplay>
             Your browser does not support the audio element.
         </audio>
