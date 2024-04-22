@@ -71,15 +71,19 @@
             flex: 1;
         }
         .controlButton {
-            background-color: transparent;
+            background-color: #8e24aa; /* Purple */
+            background-image: linear-gradient(to right, #82ada9, #8e24aa); /* Light blue to purple gradient */
             border: none;
-            color: #82ada9; /* Lighter blue */
+            color: #fff; /* White text */
             font-size: 20px;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: background-image 0.3s;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
         }
         .controlButton:hover {
-            color: #b2dfdb; /* Light blue */
+            background-image: linear-gradient(to right, #82ada9, #b2dfdb); /* Light blue to light blue gradient */
         }
     </style>
 </head>
