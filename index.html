@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glass Radio</title>
     <style>
-        /* CSS styles for dark mode and gradient play bar */
+        /* CSS styles for dark mode */
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -50,24 +50,19 @@
             font-size: 24px;
             color: #82ada9; /* Lighter blue */
         }
+        /* Style for audio controls */
         #audioPlayer {
-            display: none; /* Hide default audio player */
-        }
-        .progress-bar {
             width: 100%;
-            background: linear-gradient(90deg, #82ada9, #8e24aa); /* Light blue to purple gradient */
-            height: 4px;
-            border-radius: 2px;
-            margin-top: 10px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
+            margin-top: 20px;
+            background-color: #1e1e1e; /* Dark container */
+            border: none;
+            border-radius: 5px;
+            color: #b2dfdb; /* Light blue */
         }
-        .progress-bar-inner {
-            width: 0;
-            height: 100%;
-            background-color: #fff; /* Fallback color */
-            position: absolute;
+        /* Style for progress bar */
+        #progressBar {
+            width: 100%;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -81,8 +76,8 @@
             <!-- Playlist will be populated dynamically -->
         </ul>
         <div id="nowPlaying"></div>
-        <div class="progress-bar" id="progressBar">
-            <div class="progress-bar-inner" id="progressBarInner"></div>
+        <div id="progressBar">
+            <input type="range" id="seekSlider" value="0" step="1">
         </div>
     </div>
 
@@ -91,8 +86,7 @@
             const audioPlayer = document.getElementById("audioPlayer");
             const playlist = document.getElementById("playlist");
             const nowPlaying = document.getElementById("nowPlaying");
-            const progressBarInner = document.getElementById("progressBarInner");
-            const progressBar = document.getElementById("progressBar");
+            const seekSlider = document.getElementById("seekSlider");
             const musicFolder = "music/";
             const songs = [
                 { title: "PLAY (Alan Walker's Video)", filename: "Alan Walker, K-391, Tungevaag, Mangoo - PLAY (Alan Walker's Video).mp3" },
@@ -148,15 +142,12 @@
             // Update progress bar as song plays
             audioPlayer.addEventListener("timeupdate", function() {
                 const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                progressBarInner.style.width = progress + "%";
+                seekSlider.value = progress;
             });
 
-            // Seek to a position when the progress bar is clicked
-            progressBar.addEventListener("click", function(event) {
-                const rect = progressBar.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const progressPercentage = (x / progressBar.clientWidth) * 100;
-                const seekTime = (progressPercentage / 100) * audioPlayer.duration;
+            // Seek to a position when the slider is adjusted
+            seekSlider.addEventListener("input", function() {
+                const seekTime = (seekSlider.value / 100) * audioPlayer.duration;
                 audioPlayer.currentTime = seekTime;
             });
 
