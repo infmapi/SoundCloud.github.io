@@ -60,34 +60,11 @@
             border-radius: 2px;
             margin-top: 10px;
             overflow: hidden;
-            position: relative;
         }
         .progress-bar-inner {
             width: 0;
             height: 100%;
             background-color: #fff; /* Fallback color */
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .controls {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .control-btn {
-            background-color: #82ada9; /* Light blue */
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 16px;
-            margin: 0 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .control-btn:hover {
-            background-color: #8e24aa; /* Lighter blue */
         }
     </style>
 </head>
@@ -103,10 +80,6 @@
         <div id="nowPlaying"></div>
         <div class="progress-bar">
             <div class="progress-bar-inner"></div>
-        </div>
-        <div class="controls">
-            <button class="control-btn" id="playbackSpeedBtn">Playback Speed: 1x</button>
-            <button class="control-btn" id="downloadBtn">Download</button>
         </div>
     </div>
 
@@ -174,3 +147,9 @@
                 progressBarInner.style.width = progress + "%";
             });
 
+            // Populate the playlist when the page loads
+            populatePlaylist();
+        });
+    </script>
+</body>
+</html>
