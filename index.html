@@ -63,6 +63,23 @@
         #progressBar {
             width: 100%;
             margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #seekSlider {
+            flex: 1;
+        }
+        .controlButton {
+            background-color: transparent;
+            border: none;
+            color: #82ada9; /* Lighter blue */
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .controlButton:hover {
+            color: #b2dfdb; /* Light blue */
         }
     </style>
 </head>
@@ -77,7 +94,9 @@
         </ul>
         <div id="nowPlaying"></div>
         <div id="progressBar">
+            <button class="controlButton" id="previousButton">&#9664;</button>
             <input type="range" id="seekSlider" value="0" step="1">
+            <button class="controlButton" id="nextButton">&#9654;</button>
         </div>
     </div>
 
@@ -87,6 +106,8 @@
             const playlist = document.getElementById("playlist");
             const nowPlaying = document.getElementById("nowPlaying");
             const seekSlider = document.getElementById("seekSlider");
+            const previousButton = document.getElementById("previousButton");
+            const nextButton = document.getElementById("nextButton");
             const musicFolder = "music/";
             const songs = [
                 { title: "PLAY (Alan Walker's Video)", filename: "Alan Walker, K-391, Tungevaag, Mangoo - PLAY (Alan Walker's Video).mp3" },
@@ -149,6 +170,18 @@
             seekSlider.addEventListener("input", function() {
                 const seekTime = (seekSlider.value / 100) * audioPlayer.duration;
                 audioPlayer.currentTime = seekTime;
+            });
+
+            // Play previous song
+            previousButton.addEventListener("click", function() {
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                playSong(currentSongIndex);
+            });
+
+            // Play next song
+            nextButton.addEventListener("click", function() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                playSong(currentSongIndex);
             });
 
             // Populate the playlist when the page loads
