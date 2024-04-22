@@ -41,7 +41,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Glass Radio</h1>
+        <h1>My Music Player</h1>
         <audio id="audioPlayer" controls autoplay>
             Your browser does not support the audio element.
         </audio>
@@ -68,15 +68,16 @@
                 // Add more songs as needed
             ];
 
+            let currentSongIndex = 0;
+
             // Function to create playlist items
-            function createPlaylistItem(song) {
+            function createPlaylistItem(song, index) {
                 const listItem = document.createElement("li");
                 const link = document.createElement("a");
                 link.href = "#";
                 link.textContent = song.title;
                 link.addEventListener("click", function() {
-                    audioPlayer.src = musicFolder + song.filename;
-                    audioPlayer.play();
+                    playSong(index);
                 });
                 listItem.appendChild(link);
                 return listItem;
@@ -84,11 +85,25 @@
 
             // Function to populate the playlist
             function populatePlaylist() {
-                songs.forEach(function(song) {
-                    const listItem = createPlaylistItem(song);
+                songs.forEach(function(song, index) {
+                    const listItem = createPlaylistItem(song, index);
                     playlist.appendChild(listItem);
                 });
             }
+
+            // Play the song at the given index
+            function playSong(index) {
+                currentSongIndex = index;
+                const song = songs[currentSongIndex];
+                audioPlayer.src = musicFolder + song.filename;
+                audioPlayer.play();
+            }
+
+            // Play the next song when the current song ends
+            audioPlayer.addEventListener("ended", function() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                playSong(currentSongIndex);
+            });
 
             // Populate the playlist when the page loads
             populatePlaylist();
