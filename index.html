@@ -5,86 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glass Radio</title>
     <style>
-        /* CSS styles for dark mode */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212; /* Dark background */
-            color: #fff; /* Light text */
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #1e1e1e; /* Dark container */
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-            text-align: center;
-        }
-        h1 {
-            font-family: 'Verdana', sans-serif;
-            margin-bottom: 20px;
-            color: #b2dfdb; /* Light blue */
-        }
-        #playlist {
-            list-style-type: none;
-            padding: 0;
-            margin-bottom: 20px;
-        }
-        #playlist li {
-            margin-bottom: 10px;
-            font-size: 18px;
-            color: #ccc; /* Light gray */
-        }
-        #playlist li a {
-            text-decoration: none;
-            color: #b2dfdb; /* Light blue */
-            transition: color 0.3s;
-        }
-        #playlist li a:hover {
-            color: #82ada9; /* Lighter blue */
-        }
-        #nowPlaying {
-            margin-top: 20px;
-            font-size: 24px;
-            color: #82ada9; /* Lighter blue */
-        }
-        /* Style for audio controls */
-        #audioPlayer {
-            width: 100%;
-            margin-top: 20px;
-            background-color: #1e1e1e; /* Dark container */
-            border: none;
-            border-radius: 5px;
-            color: #b2dfdb; /* Light blue */
-        }
-        /* Style for progress bar */
-        #progressBar {
-            width: 100%;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #seekSlider {
-            flex: 1;
-        }
-        .controlButton {
-            background-color: #8e24aa; /* Purple */
-            background-image: linear-gradient(to right, #82ada9, #8e24aa); /* Light blue to purple gradient */
-            border: none;
-            color: #fff; /* White text */
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-image 0.3s;
-            padding: 5px 10px;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-        .controlButton:hover {
-            background-image: linear-gradient(to right, #82ada9, #b2dfdb); /* Light blue to light blue gradient */
-        }
+       /* CSS styles for dark mode */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Dark background */
+    color: #fff; /* Light text */
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #1e1e1e; /* Dark container */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+h1 {
+    font-family: 'Verdana', sans-serif;
+    margin-bottom: 20px;
+    color: #b2dfdb; /* Light blue */
+}
+#playlist {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+#playlist li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #ccc; /* Light gray */
+    position: relative; /* Add position relative */
+}
+#playlist li:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent black overlay */
+    z-index: 1; /* Ensure overlay is above text */
+    border-radius: 5px; /* Rounded corners */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+#playlist li:hover a {
+    position: relative; /* Ensure link stays above overlay */
+    z-index: 2; /* Ensure link is above overlay */
+}
+#playlist li a {
+    text-decoration: none;
+    color: #b2dfdb; /* Light blue */
+    transition: color 0.3s;
+}
+#playlist li a:hover {
+    color: #82ada9; /* Lighter blue */
+}
+#nowPlaying {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #82ada9; /* Lighter blue */
+}
+/* Style for audio controls */
+#audioPlayer {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #1e1e1e; /* Dark container */
+    border: none;
+    border-radius: 5px;
+    color: #b2dfdb; /* Light blue */
+}
+/* Style for progress bar */
+#progressBar {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#seekSlider {
+    flex: 1;
+}
+.controlButton {
+    background-color: #8e24aa; /* Purple */
+    background-image: linear-gradient(to right, #82ada9, #8e24aa); /* Light blue to purple gradient */
+    border: none;
+    color: #fff; /* White text */
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-image 0.3s;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+.controlButton:hover {
+    background-image: linear-gradient(to right, #82ada9, #b2dfdb); /* Light blue to light blue gradient */
+}
+
     </style>
 </head>
 <body>
