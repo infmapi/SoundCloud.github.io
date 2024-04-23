@@ -199,16 +199,6 @@
             background-color: #6d9fb9;
         }
         /* Add this CSS to your existing styles */
-        .downloadButton {
-            background: linear-gradient(135deg, #2980b9, #6dd5fa, #ffffff);
-            border-radius: 5px;
-            padding: 10px;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
     </style>
 </head>
 <body>
@@ -397,45 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
     title.textContent = pageTitle;
     document.title = pageTitle;
 
-    // Create download button
-    const downloadButton = document.createElement("button");
-    downloadButton.textContent = "Download Current Song";
-    downloadButton.style.background = "linear-gradient(135deg, #2980b9, #6dd5fa, #ffffff)";
-    downloadButton.style.borderRadius = "5px";
-    downloadButton.style.padding = "10px";
-    downloadButton.style.border = "none";
-    downloadButton.style.color = "#fff";
-    downloadButton.style.cursor = "pointer";
-    downloadButton.style.marginTop = "20px";
-
-    // Add event listener to the download button
-    downloadButton.addEventListener("click", function() {
-        downloadCurrentSong();
-    });
-
-    // Append download button to the download area
-    const downloadArea = document.getElementById("downloadCurrentSong");
-    if (downloadArea.childElementCount === 0) {
-        downloadArea.appendChild(downloadButton);
-    }
-
-    // Function to handle download of the current song
-    function downloadCurrentSong() {
-        const song = songs[currentSongIndex];
-        const url = musicFolder + song.filename;
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = song.filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
-
-    // Populate the playlist when the page loads
-    populatePlaylist();
-});
-
-
+   
     </script>
     
 </body>
