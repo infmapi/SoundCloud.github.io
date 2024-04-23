@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Radio</title>
+    <style>
+       /* CSS styles for dark mode */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Dark background */
+    color: #fff; /* Light text */
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #1e1e1e; /* Dark container */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+h1 {
+    font-family: 'Verdana', sans-serif;
+    margin-bottom: 20px;
+    color: #b2dfdb; /* Light blue */
+}
+#playlist {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+#playlist li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #ccc; /* Light gray */
+    position: relative; /* Add position relative */
+}
+#playlist li:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent black overlay */
+    z-index: 1; /* Ensure overlay is above text */
+    border-radius: 5px; /* Rounded corners */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
+#playlist li:hover a {
+    position: relative; /* Ensure link stays above overlay */
+    z-index: 2; /* Ensure link is above overlay */
+}
+#playlist li a {
+    text-decoration: none;
+    color: #b2dfdb; /* Light blue */
+    transition: color 0.3s;
+}
+#playlist li a:hover {
+    color: #82ada9; /* Lighter blue */
+}
+#nowPlaying {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #82ada9; /* Lighter blue */
+}
+/* Style for audio controls */
+#audioPlayer {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #1e1e1e; /* Dark container */
+    border: none;
+    border-radius: 5px;
+    color: #b2dfdb; /* Light blue */
+}
+/* Style for progress bar */
+#progressBar {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#seekSlider {
+    flex: 1;
+}
+.controlButton {
+    background-color: #8e24aa; /* Purple */
+    background-image: linear-gradient(to right, #82ada9, #8e24aa); /* Light blue to purple gradient */
+    border: none;
+    color: #fff; /* White text */
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-image 0.3s;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+.controlButton:hover {
+    background-image: linear-gradient(to right, #82ada9, #b2dfdb); /* Light blue to light blue gradient */
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Glass Radio</h1>
+        <audio id="audioPlayer" controls autoplay>
+            Your browser does not support the audio element.
+        </audio>
+        <ul id="playlist">
+            <!-- Playlist will be populated dynamically -->
+        </ul>
+        <div id="nowPlaying"></div>
+        <div id="progressBar">
+            <button class="controlButton" id="backward10Button">&#9668; -10s</button>
+            <button class="controlButton" id="previousButton">&#9664;</button>
+            <input type="range" id="seekSlider" value="0" step="1">
+            <button class="controlButton" id="nextButton">&#9654;</button>
+            <button class="controlButton" id="forward10Button">+10s &#9658;</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioPlayer = document.getElementById("audioPlayer");
+            const playlist = document.getElementById("playlist");
+            const nowPlaying = document.getElementById("nowPlaying");
+            const seekSlider = document.getElementById("seekSlider");
+            const backward10Button = document.getElementById("backward10Button");
+            const forward10Button = document.getElementById("forward10Button");
+            const previousButton = document.getElementById("previousButton");
+            const nextButton = document.getElementById("nextButton");
+            const musicFolder = "music/";
+            const songs = [
+                { title: "PLAY (Alan Walker's Video)", filename: "Alan Walker, K-391, Tungevaag, Mangoo - PLAY (Alan Walker's Video).mp3" },
+                { title: "Beautiful Things", filename: "Benson Boone - Beautiful Things (Official Music Video).mp3" },
+                { title: "End of Time", filename: "K-391, Alan Walker & Ahrix - End of Time (Lyrics).mp3" },
+                { title: "Legends Never Die", filename: "Legends Never Die (ft. Against The Current) [OFFICIAL AUDIO]  Worlds 2017 - League of Legends.mp3" },
+                { title: "There's Nothing Holdin' Me Back", filename: "Shawn Mendes - There's Nothing Holdin' Me Back (Official Music Video).mp3" },
+                { title: "Mercy (Speed up)", filename: "Shawn mendes - Mercy [Speed up].mp3" },
+                { title: "Control", filename: "Unknown Brain x Rival - Control (feat. Jex)  Trap  NCS - Copyright Free Music.mp3" },
+                { title: "Enough", filename: "charlieonnafriday - Enough (Official Music Video).mp3" },
+                { title: "That's What I Get", filename: "charlieonnafriday - That's What I Get (Official Music Video).mp3" }
+                // Add more songs as needed
+            ];
+
+            let currentSongIndex = 0;
+
+            // Function to create playlist items
+            function createPlaylistItem(song, index) {
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                link.href = "#";
+                link.textContent = song.title;
+                link.addEventListener("click", function() {
+                    playSong(index);
+                });
+                listItem.appendChild(link);
+                return listItem;
+            }
+
+            // Function to populate the playlist
+            function populatePlaylist() {
+                songs.forEach(function(song, index) {
+                    const listItem = createPlaylistItem(song, index);
+                    playlist.appendChild(listItem);
+                });
+            }
+
+            // Play the song at the given index
+            function playSong(index) {
+                currentSongIndex = index;
+                const song = songs[currentSongIndex];
+                audioPlayer.src = musicFolder + song.filename;
+                audioPlayer.play();
+                nowPlaying.textContent = "Now playing: " + song.title;
+            }
+
+            // Play the next song when the current song ends
+            audioPlayer.addEventListener("ended", function() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                playSong(currentSongIndex);
+            });
+
+            // Update progress bar as song plays
+            audioPlayer.addEventListener("timeupdate", function() {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                seekSlider.value = progress;
+            });
+
+            // Seek to a position when the slider is adjusted
+            seekSlider.addEventListener("input", function() {
+                const seekTime = (seekSlider.value / 100) * audioPlayer.duration;
+                audioPlayer.currentTime = seekTime;
+            });
+
+            // Go back 10 seconds
+            backward10Button.addEventListener("click", function() {
+                audioPlayer.currentTime -= 10;
+            });
+
+            // Go forward 10 seconds
+            forward10Button.addEventListener("click", function() {
+                audioPlayer.currentTime += 10;
+            });
+
+            // Play previous song
+            previousButton.addEventListener("click", function() {
+                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+                playSong(currentSongIndex);
+            });
+
+            // Play next song
+            nextButton.addEventListener("click", function() {
+                currentSongIndex = (currentSongIndex + 1) % songs.length;
+                playSong(currentSongIndex);
+            });
+
+            // Populate the playlist when the page loads
+            populatePlaylist();
+        });
+    </script>
+</body>
+</html>
